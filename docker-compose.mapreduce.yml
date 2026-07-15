@@ -1,0 +1,59 @@
+services:
+  preparador:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    environment:
+      DATOS_URL: http://host.docker.internal:8080/datos
+    command: bash -c "python preparador.py && bash split_entrada.sh"
+
+  mapper1:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    command: python mapper.py splits/part_00.txt
+    depends_on:
+      preparador:
+        condition: service_completed_successfully
+
+  mapper2:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    command: python mapper.py splits/part_01.txt
+    depends_on:
+      preparador:
+        condition: service_completed_successfully
+
+  mapper3:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    command: python mapper.py splits/part_02.txt
+    depends_on:
+      preparador:
+        condition: service_completed_successfully
+
+  mapper4:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    command: python mapper.py splits/part_03.txt
+    depends_on:
+      preparador:
+        condition: service_completed_successfully
+
+  reducer:
+    build: ./mapreduce
+    volumes:
+      - ./mapreduce:/app
+    command: python reducer.py
+    depends_on:
+      mapper1:
+        condition: service_completed_successfully
+      mapper2:
+        condition: service_completed_successfully
+      mapper3:
+        condition: service_completed_successfully
+      mapper4:
+        condition: service_completed_successfully

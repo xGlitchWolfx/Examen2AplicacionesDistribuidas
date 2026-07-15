@@ -1,0 +1,7 @@
+RESULTADOS MAP REDUCE
+Video mas visto: video12 (12 views)
+Video con mas likes: video13 (12 likes)
+Video mas comentado: video4 (12 comentarios)
+Usuario mas recurrente: Jorge (47 interacciones)
+Hora con mas interaccion: 13:00 (30 interacciones)
+Mayor ratio de interaccion: video13 (7.75)
